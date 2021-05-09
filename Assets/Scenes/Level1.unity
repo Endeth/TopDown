@@ -137,7 +137,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2258178083228131892, guid: cb4b0bb600663234f8f5aa819853302d, type: 3}
       propertyPath: m_Size.y
-      value: 92
+      value: 87
       objectReference: {fileID: 0}
     - target: {fileID: 1657702959888263660, guid: cb4b0bb600663234f8f5aa819853302d, type: 3}
       propertyPath: m_Name
@@ -325,6 +325,10 @@ PrefabInstance:
     - target: {fileID: -4866324537249897121, guid: 8fe5a7ab7e70a6d49bdff8b4edb34c73, type: 3}
       propertyPath: m_Constraints
       value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: -4866324537249897121, guid: 8fe5a7ab7e70a6d49bdff8b4edb34c73, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -1519845113692399391, guid: 8fe5a7ab7e70a6d49bdff8b4edb34c73, type: 3}
       propertyPath: m_Size.x
@@ -838,7 +842,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2258178083228131892, guid: cb4b0bb600663234f8f5aa819853302d, type: 3}
       propertyPath: m_Size.y
-      value: 92
+      value: 87
       objectReference: {fileID: 0}
     - target: {fileID: 1657702959888263660, guid: cb4b0bb600663234f8f5aa819853302d, type: 3}
       propertyPath: m_Name
@@ -1296,7 +1300,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6864940520251493432, guid: e1dd1a5df27d19f4a91d744aa30b9b55, type: 3}
       propertyPath: _playerSpeed
-      value: 16
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758122107216422508, guid: e1dd1a5df27d19f4a91d744aa30b9b55, type: 3}
+      propertyPath: m_Drag
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758122107216422508, guid: e1dd1a5df27d19f4a91d744aa30b9b55, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758122107216422508, guid: e1dd1a5df27d19f4a91d744aa30b9b55, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}

@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
         //_secondaryUsable?.Use();
 
         _movement = new Vector3( Input.GetAxis( "Horizontal" ), 0, Input.GetAxis( "Vertical" ) ).normalized;
-        _rigidbody.AddForce( _movement * _playerSpeed, ForceMode.Acceleration );
+        //_rigidbody.AddForce( _movement * _playerSpeed, ForceMode.Acceleration );
         //transform.position += _movement * Time.deltaTime * _playerSpeed;
     }
 
@@ -86,6 +86,6 @@ public class Player : MonoBehaviour
             return;
 
         //transform.position += _movement * Time.fixedDeltaTime * _playerSpeed;
-        //_rigidbody.AddForce( _movement * _playerSpeed, ForceMode.Acceleration );
+        _rigidbody.AddForce( _movement * _playerSpeed, ForceMode.Acceleration );
     }
 }

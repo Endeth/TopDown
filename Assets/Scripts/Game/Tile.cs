@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
+    [SerializeField] private bool _nonPassable;
+    public bool NonPassable
+    {
+        get => _nonPassable;
+    }
     void Awake()
     {
         var renderer = GetComponent<SpriteRenderer>();

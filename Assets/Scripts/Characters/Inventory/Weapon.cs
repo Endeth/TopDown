@@ -15,14 +15,22 @@ public class Weapon : Usable
         _collider = gameObject.GetComponentInChildren<BoxCollider>();
     }
 
-    public void OnCollision( Collision collision )
+    public void OnTriggerEnter( Collider collider )
     {
-        Monster monster = collision.gameObject.GetComponent<Monster>();
-        if( IsActive && monster && monster.Fraction != Owner )
+        Monster monster = collider.gameObject.GetComponent<Monster>(); //Use entity or gameObject
+        Tile tile = collider.gameObject.GetComponent<Tile>();
+        if( IsActive )
         {
-            Vector3 dir = collision.contacts[0].point - transform.position;
-            monster.GetDamage( _damage );
-            monster.GetComponent<Rigidbody>().AddForce( dir.normalized * _force );
+            if( monster && monster.Fraction != Owner )
+            {
+                Vector3 dir = collider.transform.position - transform.position;
+                monster.GetDamage( _damage );
+                monster.GetComponent<Rigidbody>().AddForce( dir.normalized * _force );
+            }
+            else if( tile && tile.NonPassable )
+            {
+                _useAnimation.Play( "Idle" );
+            }
         }
     }
 

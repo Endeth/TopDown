@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class WeaponCollision : MonoBehaviour
 {
-    void OnCollisionEnter( Collision collision )
+    void OnTriggerEnter( Collider collider )
     {
         var weapon = gameObject.GetComponentInParent<Weapon>();
-        weapon.OnCollision( collision );
+        weapon.OnTriggerEnter( collider );
     }
 }
