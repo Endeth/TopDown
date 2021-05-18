@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponCollision : MonoBehaviour
+namespace TopDown
 {
-    void OnTriggerEnter( Collider collider )
+    public class WeaponCollision : MonoBehaviour
     {
-        var weapon = gameObject.GetComponentInParent<Weapon>();
-        weapon.OnTriggerEnter( collider );
+        //Exists as separate from weapon due to main script being outside of collider, will be removed when hands and player rotation will work correctly
+        void OnTriggerEnter( Collider collider )
+        {
+            var weapon = gameObject.GetComponentInParent<Weapon>();
+            weapon.OnTriggerEnter( collider );
+        }
     }
 }

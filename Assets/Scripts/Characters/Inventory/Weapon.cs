@@ -2,45 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : Usable
+namespace TopDown
 {
-    public float _damage;
-    public float _force;
-    public BoxCollider _collider;
-
-    override protected void Start()
+    public class Weapon : Usable
     {
-        base.Start();
-        Owner = Fractions.Id.Player;
-        _collider = gameObject.GetComponentInChildren<BoxCollider>();
-    }
+        public float _damage;
+        public float _force;
+        public BoxCollider _collider;
 
-    public void OnTriggerEnter( Collider collider )
-    {
-        Monster monster = collider.gameObject.GetComponent<Monster>(); //Use entity or gameObject
-        Tile tile = collider.gameObject.GetComponent<Tile>();
-        if( IsActive )
+        override protected void Start()
         {
-            if( monster && monster.Fraction != Owner )
+            base.Start();
+            Owner = Fractions.Id.Player;
+            _collider = gameObject.GetComponentInChildren<BoxCollider>();
+        }
+
+        public void OnTriggerEnter( Collider collider )
+        {
+            Entity entity = collider.gameObject.GetComponent<Monster>();
+            Tile tile = collider.gameObject.GetComponent<Tile>();
+            if( IsActive )
             {
-                Vector3 dir = collider.transform.position - transform.position;
-                monster.GetDamage( _damage );
-                monster.GetComponent<Rigidbody>().AddForce( dir.normalized * _force );
-            }
-            else if( tile && tile.NonPassable )
-            {
-                _useAnimation.Play( "Idle" );
+                if( entity && entity.GetFraction() != Owner )
+                {
+                    Vector3 force = ( collider.transform.position - transform.position ).normalized * _force;
+                    entity.GetHit( _damage, force );
+                }
+                else if( tile && tile.Obstacle )
+                {
+                    _useAnimation.Play( "Idle" );
+                }
             }
         }
-    }
 
-    override public void Use()
-    {
-        base.Use();
-        if( !_onCooldown )
+        override public void Use()
         {
-            _useAnimation.SetTrigger( "Use" );
-            _onCooldown = true;
+            base.Use();
+            if( !_onCooldown )
+            {
+                _useAnimation.SetTrigger( "Use" );
+                _onCooldown = true;
+            }
         }
     }
 }

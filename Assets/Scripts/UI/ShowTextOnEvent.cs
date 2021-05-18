@@ -3,23 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShowTextOnEvent : MonoBehaviour
+namespace TopDown
 {
-    [SerializeField] private Events.Type eventName;
-
-    void OnEnable()
+    public class ShowTextOnEvent : MonoBehaviour
     {
-        EventManager.StartListening( eventName, ShowText );
-    }
+        [SerializeField] private Events.Type _eventName;
 
-    void OnDisable()
-    {
-        EventManager.StopListening( eventName, ShowText );
-    }
+        void OnEnable()
+        {
+            EventManager.StartListening( _eventName, ShowText );
+        }
 
-    void ShowText()
-    {
-        var text = GetComponent<Text>();
-        text.enabled = true;
+        void OnDisable()
+        {
+            EventManager.StopListening( _eventName, ShowText );
+        }
+
+        void ShowText()
+        {
+            var text = GetComponent<Text>();
+            //text.enabled = true; //enabling seems quite slow (due to rendering afaik)
+            var col = text.color;
+            col.a = 1f;
+            text.color = col;
+        }
     }
 }

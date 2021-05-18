@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fractions
+namespace TopDown
 {
-    public enum Id { Player, Enemy };
+    public class Fractions
+    {
+        public enum Id { Player, Enemy, Neutral };
+    }
 }

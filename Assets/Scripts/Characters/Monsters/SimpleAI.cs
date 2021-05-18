@@ -2,33 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SimpleAI : MonoBehaviour
+namespace TopDown
 {
-    private Player _target;
-    private Rigidbody _rigidbody;
-
-    [SerializeField] private float _speed = 1.0f;
-    [SerializeField] private float _maxSpeed = 5.0f;
-
-    void Awake()
+    public class SimpleAI : Behaviour
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        _target = FindObjectOfType( typeof( Player ) ) as Player;
-    }
+        [Tooltip( "Looks for player by default." )] private Player _target;
 
-    void Update()
-    {
-        //Vector3 target = ( _target.transform.position - transform.position ).normalized;
-        //transform.position += target * _speed * Time.deltaTime;
-    }
+        void Activate()
+        {
+            _active = true;
+        }
 
-    void FixedUpdate()
-    {
-        if( _rigidbody.velocity.magnitude >= _maxSpeed )
-            return;
+        void Awake()
+        {
+            _owner = GetComponent<Monster>();
+            _ownerStats = _owner.GetStats();
 
-        Vector3 target = ( _target.transform.position - transform.position ).normalized;
-        _rigidbody.AddForce( target * _speed * 2 );
-        //transform.position += target * _speed * Time.fixedDeltaTime;
+            if( !_target )
+                _target = FindObjectOfType( typeof( Player ) ) as Player;
+        }
+
+        void Start()
+        {
+            EventManager.StartListening( Events.Type.GameStart, Activate );
+
+        }
+        void OnDisable()
+        {
+            EventManager.StopListening( Events.Type.GameStart, Activate );
+        }
+
+        void FixedUpdate()
+        {
+            if( ( _owner.GetSpeed() >= _ownerStats._maxSpeed ) || !_active )
+                return;
+
+            Vector3 targetPosDirection = ( _target.transform.position - transform.position );
+            _owner.AddForce( targetPosDirection * _ownerStats._speedForce );
+        }
     }
 }

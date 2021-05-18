@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MultiParticles : MonoBehaviour
+namespace TopDown
 {
-    public List<ParticleSystem> ParticleSystems = new List<ParticleSystem>();
-    void Start()
+    public class MultiParticles : MonoBehaviour
     {
-        ParticleSystems.ForEach( sys => { sys.transform.localScale = transform.localScale; } );
-    }
-    public void Update()
-    {
-        if( !ParticleSystems.Exists( system => system.IsAlive() ) )
-            Destroy( gameObject );
-    }
+        public List<ParticleSystem> ParticleSystems = new List<ParticleSystem>();
+        void Start()
+        {
+            ParticleSystems.ForEach( sys => { sys.transform.localScale = transform.localScale; } );
+        }
+        public void Update()
+        {
+            if( !ParticleSystems.Exists( system => system.IsAlive() ) )
+                Destroy( gameObject );
+        }
 
+    }
 }

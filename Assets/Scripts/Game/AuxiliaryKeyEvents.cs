@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AuxiliaryKeyEvents : MonoBehaviour
+namespace TopDown
 {
-    void Update()
+    public class AuxiliaryKeyEvents : MonoBehaviour
     {
-        if( Input.GetKey( "escape" ) )
+        void Update()
         {
-            Application.Quit();
+            if( Input.GetKey( "escape" ) )
+            {
+                Application.Quit();
+            }
         }
     }
 }
