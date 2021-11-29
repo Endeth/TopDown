@@ -8,6 +8,7 @@ namespace TopDown
     {
         protected Entity _owner;
         protected Stats _ownerStats;
-        protected bool _active = false;
+        public bool Activated { get; set; }
+
     }
 }

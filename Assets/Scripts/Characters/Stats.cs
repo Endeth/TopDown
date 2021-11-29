@@ -19,7 +19,7 @@ namespace TopDown
         //public float _fireDamageMultiplier;
 
         // ### MOVEMENT ###
-        public float _speedForce;
+        public float _speed;
         public float _maxSpeed;
 
         // ### UTILITY ###

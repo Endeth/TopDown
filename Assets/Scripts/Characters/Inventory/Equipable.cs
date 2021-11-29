@@ -7,6 +7,6 @@ namespace TopDown
     public class Equipable : MonoBehaviour
     {
         public Fractions.Id Owner { get; set; }
-        public bool IsActive { get; set; }
+        public bool Activated { get; set; }
     }
 }

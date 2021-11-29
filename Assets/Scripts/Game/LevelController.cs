@@ -5,23 +5,34 @@ using UnityEngine.SceneManagement;
 
 namespace TopDown
 {
-    public class LevelController : MonoBehaviour
+    public class LevelController : MonoBehaviour, Observer<bool>
     {
-        private Player _player;
-        private List<Monster> _monsters = new List<Monster>();
         [SerializeField] private string nextLevelName;
+        private KillSpecificMonsters _levelObjective;
+        private Player _player;
+        private MonsterManager _monsterManager;
         bool _finished = false;
         void OnEnable()
         {
             _player = FindObjectOfType<Player>();
-            _monsters.AddRange( FindObjectsOfType<Monster>() );
+            _monsterManager = FindObjectOfType<MonsterManager>();
+            _levelObjective = GetComponent<KillSpecificMonsters>();
+            _levelObjective.Attach( this );
+            _monsterManager.Attach( _levelObjective );
         }
 
-        private bool CheckMonsters()
+        void Start()
         {
-            if( !_monsters.Exists( monster => monster.IsAlive() ) )
-                return true;
-            return false;
+            EventManager.TriggerEvent( Events.Type.GameStart );
+        }
+        public void HandleEvent( bool eventParams )
+        {
+            int objectivesCount = 1; //Look for objectives count, objectives might be better as children of this
+            objectivesCount--;
+            if( objectivesCount == 0 )
+            {
+                FinishLevel();
+            }
         }
 
         IEnumerator DelayedQuit()
@@ -58,16 +69,7 @@ namespace TopDown
 
         void Update()
         {
-            if( Input.GetMouseButtonDown( 0 ) )
-            {
-                EventManager.TriggerEvent( Events.Type.GameStart );
-            }
-
-            if( CheckMonsters() && !_finished )
-            {
-                FinishLevel();
-            }
-            else if( !_player.IsAlive() && !_finished )
+            if( !_player.IsAlive() && !_finished )
             {
                 _finished = true;
                 StartCoroutine( DelayedDefeat() );

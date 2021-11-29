@@ -6,13 +6,13 @@ namespace TopDown
 {
     public class Controller : Behaviour
     {
-        private Vector3 _sampledMovement;
+        private Vector2 _sampledMovement = new Vector2();
 
         void Awake()
         {
             _owner = GetComponent<Player>();
             _ownerStats = _owner.GetStats();
-            _active = true;
+            Activated = true;
         }
 
         void Update()
@@ -23,9 +23,13 @@ namespace TopDown
             if( Input.GetMouseButtonDown( 0 ) )
                 ( _owner as Player ).UseMain();
 
-            _sampledMovement = new Vector3( Input.GetAxis( "Horizontal" ), 0, Input.GetAxis( "Vertical" ) ).normalized;
-            //_rigidbody.AddForce( _movement * _playerSpeed, ForceMode.Acceleration );
-            //transform.position += _movement * Time.deltaTime * _playerSpeed;    }
+            if( Input.GetMouseButtonDown( 1 ) )
+                ( _owner as Player ).UseSecondary();
+
+            _sampledMovement.x = Input.GetAxis( "Horizontal" );
+            _sampledMovement.y = Input.GetAxis( "Vertical" );
+            Debug.Log( "SampledMovement: " + _sampledMovement );
+            _sampledMovement.Normalize();
         }
 
         void FixedUpdate()
@@ -33,8 +37,10 @@ namespace TopDown
             if( !_owner.IsAlive() )
                 return;
 
-            //transform.position += _movement * Time.fixedDeltaTime * _playerSpeed;
-            _owner.AddForce( _sampledMovement * _ownerStats._speedForce );
+            _sampledMovement.x = _sampledMovement.x * _ownerStats._speed * Time.fixedDeltaTime + transform.position.x;
+            _sampledMovement.y = _sampledMovement.y * _ownerStats._speed * Time.fixedDeltaTime + transform.position.y;
+            //Debug.Log( "SampledMovement + current position: " + _sampledMovement );
+            _owner.MovePosition( _sampledMovement );
         }
     }
 }

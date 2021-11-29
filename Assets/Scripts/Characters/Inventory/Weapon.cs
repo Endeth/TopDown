@@ -8,7 +8,7 @@ namespace TopDown
     {
         public float _damage;
         public float _force;
-        public BoxCollider _collider;
+        public BoxCollider _collider; //TODO delete
 
         override protected void Start()
         {
@@ -21,9 +21,9 @@ namespace TopDown
         {
             Entity entity = collider.gameObject.GetComponent<Monster>();
             Tile tile = collider.gameObject.GetComponent<Tile>();
-            if( IsActive )
+            if( Activated )
             {
-                if( entity && entity.GetFraction() != Owner )
+                if( entity && entity.GetFraction() != Owner && entity.IsAlive() )
                 {
                     Vector3 force = ( collider.transform.position - transform.position ).normalized * _force;
                     entity.GetHit( _damage, force );
@@ -35,14 +35,14 @@ namespace TopDown
             }
         }
 
-        override public void Use()
+        override public bool Use()
         {
-            base.Use();
-            if( !_onCooldown )
+            bool used = base.Use();
+            if( used )
             {
                 _useAnimation.SetTrigger( "Use" );
-                _onCooldown = true;
             }
+            return used;
         }
     }
 }

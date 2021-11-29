@@ -4,16 +4,18 @@ using UnityEngine;
 
 namespace TopDown
 {
-    public class MultiParticles : MonoBehaviour
+    public class SingleAnimation : MonoBehaviour
     {
         public List<ParticleSystem> ParticleSystems = new List<ParticleSystem>();
+        public AudioSource Audio;
         void Start()
         {
             ParticleSystems.ForEach( sys => { sys.transform.localScale = transform.localScale; } );
+            Audio.Play();
         }
         public void Update()
         {
-            if( !ParticleSystems.Exists( system => system.IsAlive() ) )
+            if( !ParticleSystems.Exists( system => system.IsAlive() ) && !Audio.isPlaying )
                 Destroy( gameObject );
         }
 

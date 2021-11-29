@@ -6,13 +6,13 @@ namespace TopDown
 {
     public class Player : Entity
     {
-        //[SerializeField] private float _health = 3;
-        //[SerializeField] private float _playerSpeed = 200.0f;
-
         private SpriteRenderer _spriteRenderer;
         [SerializeField] private Sprite _deadImage;
 
         [SerializeField] private Usable _mainUsable;
+        [SerializeField] private Transform _mainUsablePosition;
+        [SerializeField] private Usable _secondaryUsable;
+        [SerializeField] private Transform _secondaryUsablePosition;
 
         override protected void Awake()
         {
@@ -20,9 +20,13 @@ namespace TopDown
 
             _spriteRenderer = GetComponent<SpriteRenderer>();
 
-            _mainUsable = Instantiate( _mainUsable, transform );
-            _mainUsable.IsActive = true;
+            _mainUsable = Instantiate( _mainUsable, _mainUsablePosition );
+            _mainUsable.Activated = true;
             _mainUsable.transform.SetParent( transform );
+
+            _secondaryUsable = Instantiate( _secondaryUsable, _secondaryUsablePosition );
+            _secondaryUsable.Activated = true;
+            _secondaryUsable.transform.SetParent( transform );
         }
 
         override public void GetHit( float damage, Vector3 force )
@@ -39,7 +43,7 @@ namespace TopDown
             EventManager.TriggerEvent( Events.Type.Death );
 
             _spriteRenderer.sprite = _deadImage;
-            _mainUsable.IsActive = false;
+            _mainUsable.Activated = false;
         }
 
         public void UseMain()
@@ -47,5 +51,9 @@ namespace TopDown
             _mainUsable.Use();
         }
 
+        public void UseSecondary()
+        {
+            _secondaryUsable.Use();
+        }
     }
 }

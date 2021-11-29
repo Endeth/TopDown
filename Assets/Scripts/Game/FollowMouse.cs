@@ -9,9 +9,9 @@ namespace TopDown
         [SerializeField] private Camera _camera;
         void Update()
         {
-            Vector3 mousePosition = new Vector3( Input.mousePosition.x, Input.mousePosition.y, 12 );
+            Vector3 mousePosition = new Vector3( Input.mousePosition.x, Input.mousePosition.y, 0 );
             Vector3 mouseWorldPosition = _camera.ScreenToWorldPoint( mousePosition );
-            transform.position = new Vector3( mouseWorldPosition.x, transform.position.y, mouseWorldPosition.z );
+            transform.position = new Vector3( mouseWorldPosition.x, mouseWorldPosition.y, transform.position.z );
         }
     }
 }

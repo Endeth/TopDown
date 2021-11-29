@@ -11,10 +11,12 @@ namespace TopDown
         protected bool _onCooldown = false;
 
         protected Animator _useAnimation;
+        protected AudioSource _audioSource;
 
         virtual protected void Start()
         {
             _useAnimation = gameObject.GetComponentInChildren<Animator>();
+            _audioSource = gameObject.GetComponentInChildren<AudioSource>();
         }
 
         private IEnumerator Cooldown()
@@ -23,26 +25,29 @@ namespace TopDown
             _onCooldown = false;
         }
 
-        public virtual void Use()
+        public virtual bool Use()
         {
             if( _onCooldown )
-                return;
+                return false;
 
+            _audioSource.Play();
+            _onCooldown = true;
             StartCoroutine( Cooldown() );
+            return true;
         }
 
         private void Update()
         {
-            if( !IsActive )
+            if( !Activated )
                 return;
-            Vector3 mousePosition = new Vector3( Input.mousePosition.x, Input.mousePosition.y, 12 );
+            Vector3 mousePosition = new Vector3( Input.mousePosition.x, Input.mousePosition.y, 0 );
             Vector3 targetPos = Camera.main.ScreenToWorldPoint( mousePosition );
             Vector3 objectPos = transform.position;
             targetPos.x = targetPos.x - objectPos.x;
-            targetPos.z = targetPos.z - objectPos.z;
+            targetPos.y = targetPos.y - objectPos.y;
 
-            float angle = Mathf.Atan2( targetPos.x, targetPos.z ) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler( new Vector3( 90, angle, 0 ) ); //fix 90
+            float angle = Mathf.Atan2( targetPos.x, targetPos.y ) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler( new Vector3( 0, 0, -angle ) ); //fix 90
         }
     }
 }

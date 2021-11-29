@@ -14,8 +14,8 @@ namespace TopDown
         void Awake()
         {
             var renderer = GetComponent<SpriteRenderer>();
-            var collider = GetComponent<BoxCollider>();
-            collider.size = new Vector3( renderer.size.x, renderer.size.y, collider.size.z );
+            var collider = GetComponent<BoxCollider2D>();
+            collider.size = new Vector2( renderer.size.x, renderer.size.y );
         }
     }
 }

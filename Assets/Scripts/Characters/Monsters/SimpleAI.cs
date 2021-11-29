@@ -8,11 +8,6 @@ namespace TopDown
     {
         [Tooltip( "Looks for player by default." )] private Player _target;
 
-        void Activate()
-        {
-            _active = true;
-        }
-
         void Awake()
         {
             _owner = GetComponent<Monster>();
@@ -22,23 +17,13 @@ namespace TopDown
                 _target = FindObjectOfType( typeof( Player ) ) as Player;
         }
 
-        void Start()
-        {
-            EventManager.StartListening( Events.Type.GameStart, Activate );
-
-        }
-        void OnDisable()
-        {
-            EventManager.StopListening( Events.Type.GameStart, Activate );
-        }
-
         void FixedUpdate()
         {
-            if( ( _owner.GetSpeed() >= _ownerStats._maxSpeed ) || !_active )
+            if( ( _owner.GetSpeed() >= _ownerStats._maxSpeed ) || !Activated )
                 return;
 
-            Vector3 targetPosDirection = ( _target.transform.position - transform.position );
-            _owner.AddForce( targetPosDirection * _ownerStats._speedForce );
+            Vector2 targetPosDirection = ( _target.transform.position - transform.position ).normalized;
+            //_owner.MovePosition( targetPosDirection * _ownerStats._speed * Time.fixedDeltaTime );
         }
     }
 }
